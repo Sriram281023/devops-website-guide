@@ -5,9 +5,16 @@ pipeline {
             DOCKER_CREDENTIALS = 'ram444'
         }
     
-    docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS}") {
-            dockerImage.push("${APP_VERSION}")
-            dockerImage.push('latest')
+    stage('Push to Registry') {
+            steps {
+                echo '========== Pushing Docker Image =========='
+                script {
+                    docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS}") {
+                        dockerImage.push("${APP_VERSION}")
+                        dockerImage.push('latest')
+                    }
+                }
+            }
         }
 
 
