@@ -2,21 +2,12 @@ pipeline {
     agent any
 
     environment {
-            DOCKER_CREDENTIALS = 'ram444'
-        }
-
-     stage('Push to Registry') {
-            steps {
-                echo '========== Pushing Docker Image =========='
-                script {
-                    docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS}") {
-                        dockerImage.push("${APP_VERSION}")
-                        dockerImage.push('latest')
-                    }
-                }
-            }
-        }
-    
+        DOCKER_CREDENTIALS = 'ram444'
+        DOCKER_IMAGE_NAME = 'devops-website'
+        DOCKER_REGISTRY = 'docker.io'
+        APP_NAME = 'devops-guide-app'
+        APP_VERSION = "${BUILD_NUMBER}"
+    }
 
     stages {
         stage('Checkout') {
@@ -27,9 +18,8 @@ pipeline {
                     credentialsId: 'c91bd955-2b5a-46ef-8e98-eafd2db03706'
             }
         }
-    }
 
-      stage('Build') {
+        stage('Build') {
             steps {
                 echo '========== Building Application =========='
                 bat 'if exist build rmdir /s /q build'
@@ -39,8 +29,6 @@ pipeline {
                 bat 'if exist js xcopy js build\\js /E /I /Y'
             }
         }
-
-
 
         stage('Test') {
             steps {
@@ -58,6 +46,17 @@ pipeline {
             }
         }
 
+        stage('Push to Registry') {
+            steps {
+                echo '========== Pushing Docker Image =========='
+                script {
+                    docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS}") {
+                        dockerImage.push("${APP_VERSION}")
+                        dockerImage.push('latest')
+                    }
+                }
+            }
+        }
 
         stage('Deploy') {
             steps {
@@ -65,7 +64,7 @@ pipeline {
                 bat 'docker-compose up -d'
             }
         }
-    
+    }
 
     post {
         success {
