@@ -19,17 +19,17 @@ pipeline {
             }
         }
 
-       stage('Build') {
+      stage('Build') {
             steps {
                 echo '========== Building Application =========='
-                // Clean up old build folder if it exists
                 bat 'if exist build rmdir /s /q build'
                 bat 'mkdir build'
-                bat 'copy index.html build\\'
-                bat 'xcopy css build\\css /E /I /Y'
-                bat 'xcopy js build\\js /E /I /Y'
+                bat 'if exist index.html copy index.html build\\'
+                bat 'if exist css xcopy css build\\css /E /I /Y'
+                bat 'if exist js xcopy js build\\js /E /I /Y'
             }
         }
+
 
 
         stage('Test') {
