@@ -101,13 +101,10 @@ Access Grafana dashboards to view:
 4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📝 License
-
-This project is licensed under the MIT License.
 
 ## 👥 Authors
 
-DevOps Team
+Sriram Balaboina(23261A0504)
 
 ## 🙏 Acknowledgments
 
