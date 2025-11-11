@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_CREDENTIALS = 'ram444'
         DOCKER_IMAGE_NAME = 'ram444/devops-website'
-        DOCKER_REGISTRY = 'hub.docker.com'
+        DOCKER_REGISTRY = 'docker.io'
         APP_NAME = 'devops-guide-app'
         APP_VERSION = "${BUILD_NUMBER}"
     }
@@ -50,13 +50,14 @@ pipeline {
             steps {
                 echo '========== Pushing Docker Image =========='
                 script {
-                     docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS}") {
-                        dockerImage.push("${APP_VERSION}")
-                        dockerImage.push('latest')
+                     docker.withRegistry('', "${DOCKER_CREDENTIALS}") {
+                         dockerImage.push("${APP_VERSION}")
+                         dockerImage.push('latest')
+                        }
                     }
                 }
             }
-        }
+
 
         stage('Deploy') {
             steps {
