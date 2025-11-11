@@ -4,6 +4,18 @@ pipeline {
     environment {
             DOCKER_CREDENTIALS = 'ram444'
         }
+
+     stage('Push to Registry') {
+            steps {
+                echo '========== Pushing Docker Image =========='
+                script {
+                    docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS}") {
+                        dockerImage.push("${APP_VERSION}")
+                        dockerImage.push('latest')
+                    }
+                }
+            }
+        }
     
 
     stages {
@@ -46,17 +58,6 @@ pipeline {
             }
         }
 
-        stage('Push to Registry') {
-            steps {
-                echo '========== Pushing Docker Image =========='
-                script {
-                    docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS}") {
-                        dockerImage.push("${APP_VERSION}")
-                        dockerImage.push('latest')
-                    }
-                }
-            }
-        }
 
         stage('Deploy') {
             steps {
