@@ -5,16 +5,6 @@ pipeline {
             DOCKER_CREDENTIALS = 'ram444'
         }
     
-    stage('Push to Registry') {
-            steps {
-                echo '========== Pushing Docker Image =========='
-                script {
-                    docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS}") {
-                        dockerImage.push("${APP_VERSION}")
-                        dockerImage.push('latest')
-                    }
-                }
-            }
 
     stages {
         stage('Checkout') {
@@ -25,6 +15,7 @@ pipeline {
                     credentialsId: 'c91bd955-2b5a-46ef-8e98-eafd2db03706'
             }
         }
+    }
 
       stage('Build') {
             steps {
@@ -73,7 +64,7 @@ pipeline {
                 bat 'docker-compose up -d'
             }
         }
-    }
+    
 
     post {
         success {
