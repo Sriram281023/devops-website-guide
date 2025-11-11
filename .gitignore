@@ -1,0 +1,33 @@
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Build output
+build/
+dist/
+*.log
+
+# Docker
+*.env
+.env.local
+
+# Monitoring data
+prometheus-data/
+grafana-data/
+
+# Secrets
+*.key
+*.pem
+secrets/
+credentials/
