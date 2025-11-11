@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_CREDENTIALS = 'ram444'
+        DOCKER_CREDENTIALS = '65879076-b289-440d-854d-99793bcfed89'
         DOCKER_IMAGE_NAME = 'devops-website'
         DOCKER_REGISTRY = 'docker.io'
         APP_NAME = 'devops-guide-app'
