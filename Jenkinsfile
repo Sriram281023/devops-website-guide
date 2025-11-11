@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_CREDENTIALS = '65879076-b289-440d-854d-99793bcfed89'
-        DOCKER_IMAGE_NAME = 'Sriram281023/devops-website'
+        DOCKER_IMAGE_NAME = 'sriram281023/devops-website'
         DOCKER_REGISTRY = 'docker.io'
         APP_NAME = 'devops-guide-app'
         APP_VERSION = "${BUILD_NUMBER}"
