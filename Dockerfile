@@ -6,8 +6,8 @@ RUN rm -rf /usr/share/nginx/html/*
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY index.html /usr/share/nginx/html/
-COPY css/style.css /usr/share/nginx/html/css/
-COPY js/script.js /usr/share/nginx/html/js/
+COPY style.css /usr/share/nginx/html/css/
+COPY script.js /usr/share/nginx/html/js/
 
 RUN addgroup -g 1001 -S nginx-user && \
     adduser -S -D -H -u 1001 -h /var/cache/nginx -s /sbin/nologin -G nginx-user -g nginx-user nginx-user
