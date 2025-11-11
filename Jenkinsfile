@@ -2,12 +2,14 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE_NAME = 'devops-website'
-        DOCKER_REGISTRY = 'docker.io'
-        DOCKER_CREDENTIALS = 'dockerhub-credentials'
-        APP_NAME = 'devops-guide-app'
-        APP_VERSION = "${BUILD_NUMBER}"
-    }
+            DOCKER_CREDENTIALS = 'ram444'
+        }
+    
+    docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS}") {
+            dockerImage.push("${APP_VERSION}")
+            dockerImage.push('latest')
+        }
+
 
     stages {
         stage('Checkout') {
