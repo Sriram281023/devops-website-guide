@@ -13,7 +13,9 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo '========== Checking out source code =========='
-                git branch: 'main', url: 'https://github.com/YOUR_USERNAME/devops-website-guide.git'
+                 git branch: 'main',
+                    url: 'https://github.com/Sriram281023/devops-website-guide.git',
+                    credentialsId: 'c91bd955-2b5a-46ef-8e98-eafd2db03706'
             }
         }
 
