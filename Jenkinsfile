@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_CREDENTIALS = 'ram444'
         DOCKER_IMAGE_NAME = 'ram444/devops-website'
-        DOCKER_REGISTRY = 'docker.io'
+        DOCKER_REGISTRY = 'hub.docker.com'
         APP_NAME = 'devops-guide-app'
         APP_VERSION = "${BUILD_NUMBER}"
     }
