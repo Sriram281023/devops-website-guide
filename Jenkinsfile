@@ -13,7 +13,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo '========== Checking out source code =========='
-                 git branch: 'main',
+                git branch: 'main',
                     url: 'https://github.com/Sriram281023/devops-website-guide.git',
                     credentialsId: 'c91bd955-2b5a-46ef-8e98-eafd2db03706'
             }
@@ -22,14 +22,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo '========== Building Application =========='
-                sh 'mkdir -p build && cp -r * build/ || true'
+                bat 'mkdir build 2>nul & xcopy * build\\ /E /I /Y'
             }
         }
 
         stage('Test') {
             steps {
                 echo '========== Running Tests =========='
-                sh 'echo "Tests completed successfully"'
+                bat 'echo Tests completed successfully'
             }
         }
 
@@ -57,7 +57,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo '========== Deploying Application =========='
-                sh 'docker-compose up -d'
+                bat 'docker-compose up -d'
             }
         }
     }
