@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_CREDENTIALS = '65879076-b289-440d-854d-99793bcfed89'
-        DOCKER_IMAGE_NAME = 'devops-website'
+        DOCKER_IMAGE_NAME = 'Sriram281023/devops-website'
         DOCKER_REGISTRY = 'docker.io'
         APP_NAME = 'devops-guide-app'
         APP_VERSION = "${BUILD_NUMBER}"
@@ -41,7 +41,7 @@ pipeline {
             steps {
                 echo '========== Building Docker Image =========='
                 script {
-                    dockerImage = docker.build("${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${APP_VERSION}")
+                    dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${APP_VERSION}")
                 }
             }
         }
@@ -50,7 +50,7 @@ pipeline {
             steps {
                 echo '========== Pushing Docker Image =========='
                 script {
-                    docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS}") {
+                     docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS}") {
                         dockerImage.push("${APP_VERSION}")
                         dockerImage.push('latest')
                     }
