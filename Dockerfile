@@ -13,6 +13,7 @@ RUN addgroup -g 1001 -S nginx-user && \
     adduser -S -D -H -u 1001 -h /var/cache/nginx -s /sbin/nologin -G nginx-user -g nginx-user nginx-user
 
 RUN chown -R nginx-user:nginx-user /usr/share/nginx/html
+RUN mkdir -p /var/cache/nginx && chown -R nginx-user:nginx-user /var/cache/nginx
 
 USER nginx-user
 
