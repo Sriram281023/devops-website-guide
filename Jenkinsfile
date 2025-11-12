@@ -2,26 +2,20 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_CREDENTIALS = 'dockerhub'
-        DOCKER_IMAGE_NAME = 'ram444/devops-website'
-        DOCKER_REGISTRY = 'docker.io'
-        APP_NAME = 'devops-guide-app'
-        APP_VERSION = "${BUILD_NUMBER}"
+        DOCKER_IMAGE = "ram444/devops-website:30"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                echo '========== Checking out source code =========='
-                git branch: 'main',
-                    url: 'https://github.com/Sriram281023/devops-website-guide.git',
-                    credentialsId: 'c91bd955-2b5a-46ef-8e98-eafd2db03706'
+                echo "========== Checking out source code =========="
+                git branch: 'main', url: 'https://github.com/Sriram281023/devops-website-guide.git', credentialsId: 'c91bd955-2b5a-46ef-8e98-eafd2db03706'
             }
         }
 
         stage('Build') {
             steps {
-                echo '========== Building Application =========='
+                echo "========== Building Application =========="
                 bat 'if exist build rmdir /s /q build'
                 bat 'mkdir build'
                 bat 'if exist index.html copy index.html build\\'
@@ -32,46 +26,43 @@ pipeline {
 
         stage('Test') {
             steps {
-                echo '========== Running Tests =========='
+                echo "========== Running Tests =========="
                 bat 'echo Tests completed successfully'
             }
         }
 
         stage('Docker Build') {
             steps {
-                echo '========== Building Docker Image =========='
+                echo "========== Building Docker Image =========="
+                bat 'docker build -t "%DOCKER_IMAGE%" .'
+            }
+        }
+
+        stage('Push to Registry') {
+            steps {
+                echo "========== Pushing Docker Image =========="
                 script {
-                    dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${APP_VERSION}")
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+                        docker.image("${DOCKER_IMAGE}").push()
+                    }
                 }
             }
         }
-
-       stage('Push to Registry') {
-            echo "========== Pushing Docker Image =========="
-            script {
-                docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
-                    docker.image("ram444/devops-website:30").push()
-                }
-            }
-        }
-
-
-
 
         stage('Deploy') {
             steps {
-                echo '========== Deploying Application =========='
-                bat 'docker-compose up -d'
+                echo "========== Deploying Application =========="
+                // your deploy steps (optional)
             }
         }
     }
 
     post {
         success {
-            echo '✅ Pipeline executed successfully!'
+            echo "✅ Pipeline completed successfully!"
         }
         failure {
-            echo '❌ Pipeline failed!'
+            echo "❌ Pipeline failed!"
         }
     }
 }
