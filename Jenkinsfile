@@ -46,16 +46,15 @@ pipeline {
             }
         }
 
-        stage('Push to Registry') {
-            steps {
-                echo "========== Pushing Docker Image =========="
-                script {
-                    withDockerRegistry([ credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/' ]) {
-                        docker.image("ram444/devops-website:27").push()
-                    }
+       stage('Push to Registry') {
+            echo "========== Pushing Docker Image =========="
+            script {
+                docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+                    docker.image("ram444/devops-website:30").push()
                 }
             }
         }
+
 
 
 
