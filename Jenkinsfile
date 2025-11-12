@@ -48,15 +48,15 @@ pipeline {
 
         stage('Push to Registry') {
             steps {
-                echo '========== Pushing Docker Image =========='
+                echo "========== Pushing Docker Image =========="
                 script {
-                     docker.withRegistry('', "${DOCKER_CREDENTIALS}") {
-                         dockerImage.push("${APP_VERSION}")
-                         dockerImage.push('latest')
-                        }
+                    withDockerRegistry([ credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/' ]) {
+                        docker.image("ram444/devops-website:27").push()
                     }
                 }
             }
+        }
+
 
 
         stage('Deploy') {
